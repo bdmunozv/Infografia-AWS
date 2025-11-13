@@ -30,7 +30,7 @@
         .hero {
             text-align: center;
             color: white;
-            padding: 60px 20px;
+            padding: 30px 20px 1px 20px;
             animation: fadeIn 1s ease-in;
         }
         
@@ -461,6 +461,14 @@
         .close:hover {
             color: #333;
         }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #1e293b;
+            color: white;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -469,6 +477,7 @@
         <div class="hero">
             <h1>🚀 Arquitectura AWS para Procesamiento de Pagos de Alto Volumen</h1>
             <p>Soluciones escalables y seguras para manejar millones de transacciones diarias con picos de demanda de hasta 30x</p>
+            <p><b>Brayan David Muñoz Valbuena</b><br>Curso soluciones Cloud</p>
         </div>
 
         <!-- Problem Statement -->
@@ -981,4 +990,41 @@
                     Amazon Web Services. (2024). <em>Security Best Practices in IAM</em>. AWS Identity and Access Management Documentation. https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
                 </li>
                 <li>
-                    Amazon Web Services. (2023). <em>Architecting for the Cloud: AWS Best Practices</em>. AWS Architecture Center. https://aws.amazon.com/architecture/
+                    Amazon Web Services. (2023). <em>Architecting for the Cloud: AWS Best Practices</em>. AWS Architecture Center. https://aws.amazon.com/architecture/best-practices/
+                </li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="#top" class="cta-button">Volver al Inicio</a>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 Brayan David Muñoz Valbuena. Todos los derechos reservados.
+    </footer>
+    <script>
+        function showDetails(solution) {
+            const modal = document.getElementById('modal-' + solution);
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        }
+
+        function closeModal(solution) {
+            const modal = document.getElementById('modal-' + solution);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
