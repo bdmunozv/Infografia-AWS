@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Las 10 Heurísticas de Usabilidad de Jakob Nielsen</title>
+    <title>Arquitectura AWS para Procesamiento de Pagos</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         * {
             margin: 0;
@@ -14,425 +14,971 @@
         }
         
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             line-height: 1.6;
-            background-color: #f9f9f9;
-            padding: 20px;
+            overflow-x: hidden;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .hero {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.95;
+        }
+        
+        .problem-statement {
             background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .problem-statement h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #667eea;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .metric-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            font-size: 1rem;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        .solutions-container {
+            margin: 50px 0;
+        }
+        
+        .solution-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
             overflow: hidden;
         }
         
-        header {
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }       
+      
+
         
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            font-size: 18px;
-            font-weight: 400;
-            margin-bottom: 15px;
-        }
-        
-        .author {
+        .solution-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
         }
         
-        .author img {
-            width: 24px;
-            height: 24px;
+        .solution-icon {
+            font-size: 3rem;
+            margin-right: 20px;
         }
         
-        .intro {
-            padding: 30px;
-            background: #f1f5f9;
+        .solution-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
         }
         
-        .intro-content {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
-        .usability-def {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .usability-components {
-            flex: 1;
-            display: flex;
-            gap: 15px;
-        }
-        
-        .component {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        
-        .component-icon {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        
-        h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #1e40af;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        
-        h3 {
-            font-size: 20px;
-            margin: 15px 0;
-            color: #2563eb;
-        }
-        
-        .heuristics {
-            padding: 30px;
-        }
-        
-        .heuristics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .heuristic-card {
-            background: white;
-            border-left: 5px solid #2563eb;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-        
-        .heuristic-number {
+        .solution-badge {
             display: inline-block;
-            background: #2563eb;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            margin-right: 10px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+        
+        .solution-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .solution-description {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .feature-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            background: #e8eeff;
+            transform: scale(1.05);
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .pros, .cons {
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .pros {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #4caf50;
+        }
+        
+        .cons {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 4px solid #ff9800;
+        }
+        
+        .pros h4, .cons h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .pros h4 {
+            color: #2e7d32;
+        }
+        
+        .cons h4 {
+            color: #e65100;
+        }
+        
+        .pros ul, .cons ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .pros li, .cons li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .pros li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4caf50;
             font-weight: bold;
         }
         
-        .example {
-            background: #f1f5f9;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 12px;
-            font-style: italic;
+        .cons li::before {
+            content: '⚠';
+            position: absolute;
+            left: 0;
+            color: #ff9800;
         }
         
-        .application {
+        .architecture-diagram {
+            background: #f8f9fa;
             padding: 30px;
-            background: #f1f5f9;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
         }
         
-        .application-content {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
+        .architecture-diagram h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
         }
         
-        .evaluation, .tips {
-            flex: 1;
+        .diagram-box {
             background: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-        
-        ul {
-            padding-left: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin: 15px 0;
         }
         
-        li {
-            margin-bottom: 8px;
-        }
-        
-        .conclusion {
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
             padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .comparison-table h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
             text-align: center;
-            background: linear-gradient(135deg, #1e293b 0%, #1d3da6 100%);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
         
-        .conclusion h2 {
-            color: white;
-            border-bottom-color: rgba(255,255,255,0.3);
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
         }
         
-        .principles {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
+        th {
+            font-weight: 600;
         }
         
-        .principle {
-            background: rgba(255,255,255,0.15);
-            padding: 20px;
-            border-radius: 8px;
-            width: 200px;
+        tbody tr:hover {
+            background: #f8f9ff;
         }
         
-        footer {
+        .recommendation {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border: 3px solid #fbc02d;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .recommendation::before {
+            content: '⭐';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+        }
+        
+        .recommendation h3 {
+            color: #f57f17;
             text-align: center;
-            padding: 20px;
-            background: #1e293b;
-            color: white;
-            font-size: 14px;
+            margin-bottom: 20px;
+            font-size: 2rem;
         }
         
-        @media (max-width: 900px) {
-            .intro-content, .application-content {
-                flex-direction: column;
+        .references {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .references h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        .references ol {
+            padding-left: 20px;
+        }
+        
+        .references li {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+        
+        .cost-estimation {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .cost-estimation h4 {
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
             }
             
-            .heuristics-grid {
+            .pros-cons {
                 grid-template-columns: 1fr;
             }
             
-            .principles {
-                flex-direction: column;
-                align-items: center;
+            .metrics {
+                grid-template-columns: 1fr;
             }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+        
+        .close:hover {
+            color: #333;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Usabilidad y las 10 Heurísticas de Jakob Nielsen</h1>
-            <p class="subtitle">Principios fundamentales para el diseño de interfaces de usuario efectivas y centradas en el usuario</p>
-        </header>
-        
-        <section class="intro">
-            <h2>¿Qué es la Usabilidad?</h2>
-            <div class="intro-content">
-                <div class="usability-def">
-                    <div class="heuristic-card">
-                        <h3>🧿Definición</h3>
-                        <p>La usabilidad se refiere a la facilidad con la que los usuarios pueden utilizar un producto o sistema para lograr sus objetivos de manera efectiva, eficiente y satisfactoria.</p>
-                    </div>
-                    <div class="heuristic-card">
-                            <h3>👤Jakob Nielsen</h3>
-                        <p>Pionero en usabilidad web y cofundador del Nielsen Norman Group. Sus heurísticas, desarrolladas en 1994, siguen siendo el estándar de oro en evaluación de usabilidad.</p>
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🚀 Arquitectura AWS para Procesamiento de Pagos de Alto Volumen</h1>
+            <p>Soluciones escalables y seguras para manejar millones de transacciones diarias con picos de demanda de hasta 30x</p>
+        </div>
+
+        <!-- Problem Statement -->
+        <div class="problem-statement">
+            <h2>📋 Contexto del Desafío</h2>
+            <p>Una empresa de procesamiento de pagos en línea necesita una arquitectura cloud robusta que maneje:</p>
+            
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-number">1M+</div>
+                    <div class="metric-label">Transacciones Diarias</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">30x</div>
+                    <div class="metric-label">Picos de Demanda</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">99.99%</div>
+                    <div class="metric-label">Disponibilidad Requerida</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">24/7</div>
+                    <div class="metric-label">Operación Continua</div>
+                </div>
+            </div>
+
+            <p><strong>Requisitos críticos:</strong></p>
+            <ul style="margin-left: 20px; list-style-type: none;">
+                <li>✓ Escalabilidad automática ante picos de demanda</li>
+                <li>✓ Alta disponibilidad y tolerancia a fallos</li>
+                <li>✓ Seguridad PCI-DSS para datos de pago</li>
+                <li>✓ Baja latencia en transacciones</li>
+                <li>✓ Integración con IAM y AWS KMS</li>
+                <li>✓ Solución nivel SaaS (totalmente administrada)</li>
+            </ul>
+        </div>
+
+        <!-- Solution 1: Amazon Aurora Serverless -->
+        <div class="solutions-container">
+            <div class="solution-card" onclick="showDetails('aurora')">
+                <div class="solution-header">
+                    <div class="solution-icon">🌟</div>
+                    <div>
+                        <div class="solution-title">
+                            Solución 1: Amazon Aurora Serverless v2
+                            <span class="solution-badge">RECOMENDADA</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="usability-components">
-                    <div class="component">
-                        <div class="component-icon">⚡</div>
-                        <h3>Eficiencia</h3>
-                        <p>Velocidad para completar tareas</p>
+                <div class="solution-content">
+                    <div class="solution-description">
+                        <strong>Amazon Aurora Serverless v2</strong> es una base de datos relacional compatible con MySQL y PostgreSQL que escala automáticamente la capacidad de cómputo según la demanda en fracciones de segundo, ideal para cargas de trabajo impredecibles con picos extremos.
                     </div>
-                    <div class="component">
-                        <div class="component-icon">✅</div>
-                        <h3>Efectividad</h3>
-                        <p>Completar objetivos con éxito</p>
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <span>Escalado instantáneo</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔒</span>
+                            <span>Encriptación AWS KMS</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔄</span>
+                            <span>Hasta 15 réplicas</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>5x más rápido que MySQL</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🌐</span>
+                            <span>Multi-AZ nativo</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💾</span>
+                            <span>Backups continuos</span>
+                        </div>
                     </div>
-                    <div class="component">
-                        <div class="component-icon">😊</div>
-                        <h3>Satisfacción</h3>
-                        <p>Experiencia positiva del usuario</p>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Ventajas</h4>
+                            <ul>
+                                <li>Escalado de 0.5 ACU a 128 ACU en menos de 1 segundo</li>
+                                <li>Modelo ACID completo para transacciones financieras</li>
+                                <li>Compatible con aplicaciones SQL existentes</li>
+                                <li>Pago por segundo de uso (sin costos de capacidad inactiva)</li>
+                                <li>Integración nativa con IAM para autenticación</li>
+                                <li>Failover automático en menos de 30 segundos</li>
+                                <li>Rendimiento hasta 5x superior a MySQL estándar</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>⚠️ Consideraciones</h4>
+                            <ul>
+                                <li>Costo más alto que RDS estándar en uso constante</li>
+                                <li>Requiere ajuste de parámetros para máximo rendimiento</li>
+                                <li>Límite de conexiones según ACUs configuradas</li>
+                                <li>Curva de aprendizaje para optimización de ACUs</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="component">
-                        <div class="component-icon">📚</div>
-                        <h3>Aprendizaje</h3>
-                        <p>Facilidad para aprender el sistema</p>
+
+                    <div class="architecture-diagram">
+                        <h3>🏗️ Arquitectura Propuesta</h3>
+                        <div class="diagram-box">
+                            <picture>
+                                <img src="/src/arquitecturaAWS.png" alt="propuesta Aurora Serverless v2" style="max-width: 100%; height: auto;">
+                            </picture>
+                        </div>
                     </div>
-                    <div class="component">
-                        <div class="component-icon">🧠</div>
-                        <h3>Memorabilidad</h3>
-                        <p>Recordar cómo usar el sistema</p>
+
+                    <div class="cost-estimation">
+                        <h4>💰 Estimación de Costos (Región us-east-1)</h4>
+                        <p><strong>Escenario: 1M transacciones/día</strong></p>
+                        <ul>
+                            <li>Aurora Serverless v2 (8-64 ACU promedio): ~$500-800/mes</li>
+                            <li>Storage (500 GB): ~$115/mes</li>
+                            <li>I/O Operations: ~$200/mes</li>
+                            <li>Backups y Snapshots: ~$50/mes</li>
+                            <li><strong>Total estimado: $865-1,165/mes</strong></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <section class="heuristics">
-            <h2>Las 10 Heurísticas de Nielsen</h2>
-            
-            <div class="heuristics-grid">
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">1</span> Visibilidad del Estado del Sistema</h3>
-                    <p>El sistema debe mantener informados a los usuarios sobre lo que está ocurriendo, a través de retroalimentación apropiada dentro de un tiempo razonable.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Barras de progreso durante descargas, indicadores de carga, notificaciones de estado de envío.
+
+            <!-- Solution 2: DynamoDB -->
+            <div class="solution-card" onclick="showDetails('dynamodb')">
+                <div class="solution-header">
+                    <div class="solution-icon">⚡</div>
+                    <div>
+                        <div class="solution-title">
+                            Solución 2: Amazon DynamoDB
+                            <span class="solution-badge" style="background: linear-gradient(135deg, #f39c12, #e67e22);">ALTA ESCALA</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">2</span> Relación entre el Sistema y el Mundo Real</h3>
-                    <p>El sistema debe hablar el idioma de los usuarios, con palabras, frases y conceptos familiares, siguiendo convenciones del mundo real.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Iconos de carpetas para organización, metáfora de papelera para eliminar elementos.
+                <div class="solution-content">
+                    <div class="solution-description">
+                        <strong>Amazon DynamoDB</strong> es una base de datos NoSQL completamente administrada que ofrece rendimiento de un solo dígito de milisegundos a cualquier escala, capaz de manejar más de 10 billones de solicitudes por día.
                     </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">3</span> Control y Libertad del Usuario</h3>
-                    <p>Los usuarios a menudo eligen funciones del sistema por error y necesitarán una "salida de emergencia" claramente marcada para salir del estado no deseado.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Botones de deshacer/rehacer, confirmaciones antes de eliminar, navegación clara.
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">🚀</span>
+                            <span>Sub-10ms latencia</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">∞</span>
+                            <span>Escala ilimitada</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔐</span>
+                            <span>Encriptación en reposo</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🌍</span>
+                            <span>Tablas globales</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💪</span>
+                            <span>99.999% disponibilidad</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⏱️</span>
+                            <span>PITR backups</span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">4</span> Consistencia y Estándares</h3>
-                    <p>Los usuarios no deberían preguntarse si diferentes palabras, situaciones o acciones significan lo mismo. Seguir convenciones de la plataforma.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Usar terminología consistente, mantener ubicaciones de elementos similares en todas las páginas.
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Ventajas</h4>
+                            <ul>
+                                <li>Latencia consistente de un solo dígito de milisegundos</li>
+                                <li>Escalado automático sin límites prácticos</li>
+                                <li>Modo On-Demand: pago por request real</li>
+                                <li>No requiere gestión de servidores ni mantenimiento</li>
+                                <li>Ideal para picos impredecibles de tráfico</li>
+                                <li>Backups continuos sin impacto en rendimiento</li>
+                                <li>DynamoDB Streams para procesamiento de eventos</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>⚠️ Consideraciones</h4>
+                            <ul>
+                                <li>Modelo NoSQL: requiere rediseño de esquema relacional</li>
+                                <li>Consultas complejas limitadas (no JOINs nativos)</li>
+                                <li>Costos pueden escalar rápidamente en alto volumen</li>
+                                <li>Curva de aprendizaje para diseño de acceso</li>
+                                <li>Migración de datos desde sistema relacional compleja</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">5</span> Prevención de Errores</h3>
-                    <p>Mejor que buenos mensajes de error es un diseño cuidadoso que previene que ocurra un problema en primer lugar.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Validación en tiempo real, desactivar opciones no disponibles, formato automático de campos.
-                    </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">6</span> Reconocimiento en lugar de Recordar</h3>
-                    <p>Minimizar la carga de memoria del usuario haciendo visibles objetos, acciones y opciones. El usuario no debería recordar información de una parte del diálogo a otra.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Menús desplegables con opciones, autocompletado, historial visible de acciones recientes.
-                    </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">7</span> Flexibilidad y Eficiencia de Uso</h3>
-                    <p>Los aceleradores pueden acelerar la interacción para el usuario experto, permitiendo que el sistema atienda tanto a usuarios inexpertos como experimentados.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Atajos de teclado, personalización de interfaces, macros, herramientas avanzadas opcionales.
-                    </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">8</span> Diseño Estético y Minimalista</h3>
-                    <p>Los diálogos no deberían contener información irrelevante o raramente necesaria. Cada unidad extra de información compite con las unidades relevantes.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Interfaces limpias, jerarquía visual clara, eliminar elementos innecesarios, espaciado adecuado.
-                    </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">9</span> Ayudar a Reconocer, Diagnosticar y Recuperarse de Errores</h3>
-                    <p>Los mensajes de error deben expresarse en lenguaje claro, indicar precisamente el problema y sugerir constructivamente una solución.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> Mensajes específicos sobre qué está mal, sugerencias de solución, códigos de error comprensibles.
-                    </div>
-                </div>
-                
-                <div class="heuristic-card">
-                    <h3><span class="heuristic-number">10</span> Ayuda y Documentación</h3>
-                    <p>Aunque es mejor que el sistema pueda usarse sin documentación, puede ser necesario proporcionar ayuda. Esta información debe ser fácil de buscar y centrada en las tareas del usuario.</p>
-                    <div class="example">
-                        <strong>Ejemplo:</strong> FAQ contextuales, tutoriales interactivos, búsqueda en la ayuda, guías paso a paso.
+
+                    <div class="cost-estimation">
+                        <h4>💰 Estimación de Costos (Modo On-Demand)</h4>
+                        <p><strong>Escenario: 1M transacciones/día</strong></p>
+                        <ul>
+                            <li>Write Requests (1M writes/day): ~$380/mes</li>
+                            <li>Read Requests (estimado 3M reads/day): ~$114/mes</li>
+                            <li>Storage (100 GB): ~$25/mes</li>
+                            <li>Backups PITR: ~$20/mes</li>
+                            <li><strong>Total estimado: $539/mes</strong></li>
+                        </ul>
+                        <p><em>Nota: Modo Provisioned puede reducir costos hasta 60% con tráfico predecible</em></p>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <section class="application">
-            <h2>Aplicación en el Diseño</h2>
-            
-            <div class="application-content">
-                <div class="evaluation">
-                    <h3>Evaluación Heurística</h3>
-                    <ul>
-                        <li>Inspeccionar la interfaz siguiendo cada heurística</li>
-                        <li>Identificar violaciones y problemas de usabilidad</li>
-                        <li>Clasificar problemas por severidad</li>
-                        <li>Proponer soluciones específicas</li>
-                    </ul>
-                    
-                    <h3>Proceso de Evaluación</h3>
-                    <ul>
-                        <li>Involucrar múltiples evaluadores (3-5)</li>
-                        <li>Realizar evaluaciones independientes</li>
-                        <li>Consolidar y priorizar hallazgos</li>
-                        <li>Validar con pruebas de usuario</li>
-                    </ul>
+
+            <!-- Solution 3: Hybrid Architecture -->
+            <div class="solution-card" onclick="showDetails('hybrid')">
+                <div class="solution-header">
+                    <div class="solution-icon">🔷</div>
+                    <div>
+                        <div class="solution-title">
+                            Solución 3: Arquitectura Híbrida
+                            <span class="solution-badge" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">MEJOR RENDIMIENTO</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="tips">
-                    <h3>Consejos para Aplicar las Heurísticas</h3>
-                    
-                    <h3>Durante el Diseño</h3>
+                <div class="solution-content">
+                    <div class="solution-description">
+                        <strong>Arquitectura Híbrida</strong> que combina Amazon Aurora para datos transaccionales críticos y DynamoDB para datos de sesión, caché y eventos de alta velocidad, aprovechando lo mejor de ambos mundos.
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">🎯</span>
+                            <span>Optimización por caso de uso</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📈</span>
+                            <span>Máximo rendimiento</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💎</span>
+                            <span>Mejor costo-beneficio</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔄</span>
+                            <span>Separación de cargas</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🛡️</span>
+                            <span>Redundancia de datos</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⚙️</span>
+                            <span>Flexibilidad total</span>
+                        </div>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Ventajas</h4>
+                            <ul>
+                                <li>Aurora: transacciones ACID con integridad referencial</li>
+                                <li>DynamoDB: caché de sesiones con latencia ultra-baja</li>
+                                <li>Mejor relación costo-beneficio para cada tipo de dato</li>
+                                <li>Escalado independiente según necesidades</li>
+                                <li>Resiliencia: fallo en un sistema no afecta al otro</li>
+                                <li>Optimización de costos por patrón de acceso</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>⚠️ Consideraciones</h4>
+                            <ul>
+                                <li>Mayor complejidad arquitectónica</li>
+                                <li>Requiere sincronización entre bases de datos</li>
+                                <li>Lógica de aplicación más compleja</li>
+                                <li>Necesita estrategia de consistencia eventual</li>
+                                <li>Mantenimiento de dos sistemas diferentes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="architecture-diagram">
+                        <h3>🏗️ Arquitectura Híbrida Propuesta</h3>
+                        <div class="diagram-box">
+                            <picture>
+                                <img src="/src/arquitecturaHibridaAWS.png" alt="propuesta Aurora Serverless v2" style="max-width: 100%; height: auto;">
+                            </picture>
+                        </div>
+                    </div>
+
+                                            <div class="cost-estimation">
+                        <h4>💰 Estimación de Costos Combinados</h4>
+                        <ul>
+                            <li>Aurora Serverless v2 (reducido): ~$400/mes</li>
+                            <li>DynamoDB On-Demand (sesiones): ~$200/mes</li>
+                            <li>ElastiCache Redis (opcional): ~$150/mes</li>
+                            <li>Servicios compartidos (KMS, IAM): ~$50/mes</li>
+                            <li><strong>Total estimado: $800-850/mes</strong></li>
+                        </ul>
+                        <p><em>Optimización: 25% menos que Aurora solo, con mejor rendimiento</em></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-table">
+            <h3>📊 Comparación de Soluciones</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>Aurora Serverless v2</th>
+                        <th>DynamoDB</th>
+                        <th>Arquitectura Híbrida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Escalabilidad</strong></td>
+                        <td>⭐⭐⭐⭐ Excelente (1 seg)</td>
+                        <td>⭐⭐⭐⭐⭐ Ilimitada</td>
+                        <td>⭐⭐⭐⭐⭐ Óptima</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Latencia</strong></td>
+                        <td>⭐⭐⭐⭐ &lt;10ms</td>
+                        <td>⭐⭐⭐⭐⭐ &lt;5ms</td>
+                        <td>⭐⭐⭐⭐⭐ &lt;5ms</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Compatibilidad SQL</strong></td>
+                        <td>⭐⭐⭐⭐⭐ Total</td>
+                        <td>⭐ NoSQL</td>
+                        <td>⭐⭐⭐⭐⭐ Total</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transacciones ACID</strong></td>
+                        <td>⭐⭐⭐⭐⭐ Completo</td>
+                        <td>⭐⭐⭐ Limitado</td>
+                        <td>⭐⭐⭐⭐⭐ Completo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Costo Mensual</strong></td>
+                        <td>$865-1,165</td>
+                        <td>$539</td>
+                        <td>$800-850</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complejidad</strong></td>
+                        <td>⭐⭐ Baja</td>
+                        <td>⭐⭐⭐ Media</td>
+                        <td>⭐⭐⭐⭐ Alta</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Disponibilidad</strong></td>
+                        <td>99.95%</td>
+                        <td>99.999%</td>
+                        <td>99.99%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Facilidad Migración</strong></td>
+                        <td>⭐⭐⭐⭐⭐ Alta</td>
+                        <td>⭐⭐ Baja</td>
+                        <td>⭐⭐⭐ Media</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recommendation -->
+        <div class="recommendation">
+            <h3>🏆 Recomendación Final</h3>
+            <p><strong>Para esta empresa de procesamiento de pagos, recomendamos la SOLUCIÓN 1: Amazon Aurora Serverless v2</strong></p>
+            
+            <div style="text-align: left; margin-top: 20px;">
+                <h4>Justificación:</h4>
+                <ul style="margin-left: 30px; margin-top: 10px; list-style-type: none;">
+                    <li><strong>✓ Cumplimiento normativo:</strong> Soporte completo para transacciones ACID requeridas en pagos financieros</li>
+                    <li><strong>✓ Migración simple:</strong> Compatible con bases de datos relacionales existentes (MySQL/PostgreSQL)</li>
+                    <li><strong>✓ Escalado automático:</strong> Responde a picos de 30x en menos de 1 segundo</li>
+                    <li><strong>✓ Seguridad integrada:</strong> Encriptación nativa con AWS KMS y autenticación IAM</li>
+                    <li><strong>✓ Alta disponibilidad:</strong> Failover automático y réplicas multi-AZ</li>
+                    <li><strong>✓ ROI óptimo:</strong> Pago por segundo de uso real, sin sobrecostos de capacidad ociosa</li>
+                </ul>
+
+                <h4 style="margin-top: 20px;">Estrategia de implementación:</h4>
+                <ol style="margin-left: 30px; margin-top: 10px;">
+                    <li><strong>Fase 1 (Mes 1-2):</strong> Migración de datos a Aurora Serverless v2</li>
+                    <li><strong>Fase 2 (Mes 3):</strong> Configuración de Auto Scaling y balanceo de carga</li>
+                    <li><strong>Fase 3 (Mes 4):</strong> Pruebas de carga y optimización de rendimiento</li>
+                    <li><strong>Fase 4 (Mes 5):</strong> Despliegue gradual en producción (canary deployment)</li>
+                    <li><strong>Fase 5 (Mes 6+):</strong> Monitoreo continuo y optimización de costos</li>
+                </ol>
+
+                <p style="margin-top: 20px;"><strong>Evolución futura:</strong> A medida que el negocio crezca, se puede migrar a una arquitectura híbrida (Solución 3) agregando DynamoDB para casos de uso específicos de alto volumen.</p>
+            </div>
+        </div>
+
+        <!-- Security and Compliance -->
+        <div class="problem-statement">
+            <h2>🔐 Seguridad y Cumplimiento Normativo</h2>
+            
+            <div class="features-grid" style="margin: 30px 0;">
+                <div class="feature-item">
+                    <span class="feature-icon">🛡️</span>
+                    <span>PCI-DSS Level 1</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔒</span>
+                    <span>Encriptación AES-256</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔑</span>
+                    <span>AWS KMS CMK</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👤</span>
+                    <span>IAM MFA</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📝</span>
+                    <span>CloudTrail Audit</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🌐</span>
+                    <span>VPC Isolation</span>
+                </div>
+            </div>
+
+            <h3>Medidas de Seguridad Implementadas:</h3>
+            <ul style="margin: 20px 0 20px 30px;">
+                <li><strong>Encriptación en reposo:</strong> Todos los datos encriptados con AWS KMS usando Customer Managed Keys (CMK)</li>
+                <li><strong>Encriptación en tránsito:</strong> TLS 1.3 para todas las conexiones de base de datos</li>
+                <li><strong>Network isolation:</strong> Base de datos en subnets privadas sin acceso directo a Internet</li>
+                <li><strong>IAM Database Authentication:</strong> Autenticación sin contraseñas usando tokens IAM temporales</li>
+                <li><strong>Security Groups:</strong> Whitelist de IPs permitidas con principio de mínimo privilegio</li>
+                <li><strong>Auditoría:</strong> CloudTrail y Aurora audit logs habilitados para cumplimiento</li>
+                <li><strong>Secrets Management:</strong> AWS Secrets Manager para rotación automática de credenciales</li>
+                <li><strong>DDoS Protection:</strong> AWS Shield Standard y WAF para capa de aplicación</li>
+            </ul>
+
+            <h3>Cumplimiento Normativo:</h3>
+            <ul style="margin: 20px 0 20px 30px;">
+                <li>✓ PCI-DSS (Payment Card Industry Data Security Standard)</li>
+                <li>✓ SOC 1, SOC 2, SOC 3</li>
+                <li>✓ ISO 27001, 27017, 27018</li>
+                <li>✓ GDPR (General Data Protection Regulation)</li>
+                <li>✓ HIPAA (si aplica para datos de salud)</li>
+            </ul>
+        </div>
+
+        <!-- Monitoring and Observability -->
+        <div class="problem-statement">
+            <h2>📊 Monitoreo y Observabilidad</h2>
+            
+            <h3>Métricas Clave a Monitorear:</h3>
+            
+            <div class="pros-cons" style="margin: 30px 0;">
+                <div class="pros">
+                    <h4>📈 Métricas de Base de Datos</h4>
                     <ul>
-                        <li>Usar las heurísticas como checklist</li>
-                        <li>Considerar cada principio en decisiones de diseño</li>
-                        <li>Iterar basándose en evaluaciones heurísticas</li>
+                        <li>DatabaseConnections (alertar > 80% capacidad)</li>
+                        <li>CPUUtilization (alertar > 70%)</li>
+                        <li>ServerlessDatabaseCapacity (ACUs en uso)</li>
+                        <li>ReadLatency / WriteLatency (p99 < 10ms)</li>
+                        <li>DeadLocks (alertar si > 0)</li>
+                        <li>FreeableMemory (alertar < 20%)</li>
                     </ul>
-                    
-                    <h3>Durante la Evaluación</h3>
+                </div>
+                <div class="cons">
+                    <h4>🎯 Métricas de Aplicación</h4>
                     <ul>
-                        <li>No limitarse solo a las 10 heurísticas</li>
-                        <li>Considerar el contexto específico del producto</li>
-                        <li>Combinar con otras técnicas de evaluación</li>
+                        <li>Transaction Success Rate (> 99.9%)</li>
+                        <li>API Response Time (p95 < 200ms)</li>
+                        <li>Error Rate (< 0.1%)</li>
+                        <li>Request Rate (transacciones/segundo)</li>
+                        <li>Payment Processing Time</li>
+                        <li>Queue Depth (si usa SQS)</li>
                     </ul>
                 </div>
             </div>
-        </section>
-        
-        <section class="conclusion">
-            <h2>Conclusión</h2>
-            <p>Las heurísticas de Nielsen siguen siendo fundamentales en el diseño de interfaces de usuario después de más de 25 años. Proporcionan un marco estructurado para evaluar y mejorar la usabilidad de cualquier sistema interactivo.</p>
-            
-            <div class="principles">
-                <div class="principle">
-                    <h3 style="color: #002d77;">Estandar de la Industria</h3>
-                    <p>Referencia global en evaluación de usabilidad</p>
-                </div>
-                <div class="principle">
-                    <h3 style="color: #002d77;">Mejora Continua</h3>
-                    <p>Permite iteraciones basadas en principios probados</p>
-                </div>
-                <div class="principle">
-                    <h3 style="color: #002d77;">Experiencia de Usuario</h3>
-                    <p>Centrada en las necesidades reales de los usuarios</p>
-                </div>
-            </div>
-            
-            <p style="margin-top: 30px; font-style: italic;">Las heurísticas no son reglas absolutas. Siempre considera el contexto específico de tu producto y usuarios.</p>
-        </section>
-        
-        <!-- <footer>
-            <p>© 2023 - Guía de Heurísticas de Usabilidad de Jakob Nielsen</p>
-        </footer> -->
-    </div>
-</body>
-</html>
+
+            <h3>Herramientas de Monitoreo:</h3>
+            <ul style="margin: 20px 0 20px 30px;">
+                <li><strong>Amazon CloudWatch:</strong> Dashboards personalizados y alarmas proactivas</li>
+                <li><strong>AWS X-Ray:</strong> Trazabilidad distribuida de transacciones end-to-end</li>
+                <li><strong>CloudWatch Logs Insights:</strong> Análisis de logs con queries SQL</li>
+                <li><strong>Performance Insights:</strong> Análisis detallado de queries lentas</li>
+                <li><strong>AWS Health Dashboard:</strong> Eventos de servicio y mantenimiento</li>
+                <li><strong>Third-party (opcional):</strong> Datadog, New Relic, Splunk para correlación avanzada</li>
+            </ul>
+        </div>
+
+        <!-- References -->
+        <div class="references">
+            <h3>📚 Referencias Bibliográficas (Formato APA 7ª Edición)</h3>
+            <ol>
+                <li>
+                    Amazon Web Services. (2024). <em>Amazon Aurora Serverless v2</em>. AWS Documentation. https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html
+                </li>
+                <li>
+                    Amazon Web Services. (2024). <em>Amazon DynamoDB Developer Guide</em>. AWS Documentation. https://docs.aws.amazon.com/dynamodb/
+                </li>
+                <li>
+                    Amazon Web Services. (2024). <em>AWS Key Management Service Best Practices</em>. AWS Whitepapers. https://docs.aws.amazon.com/kms/latest/developerguide/best-practices.html
+                </li>
+                <li>
+                    Amazon Web Services. (2024). <em>Security Best Practices in IAM</em>. AWS Identity and Access Management Documentation. https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html
+                </li>
+                <li>
+                    Amazon Web Services. (2023). <em>Architecting for the Cloud: AWS Best Practices</em>. AWS Architecture Center. https://aws.amazon.com/architecture/
